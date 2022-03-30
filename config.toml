@@ -1,0 +1,29 @@
+theme = "paper"
+baseURL = 'realzhangm.github.io'
+languageCode = 'zh'
+title = 'zhangm blog'
+author = "zhangm"
+copyright = "Copyright © 2018–2022, zhangm; all rights reserved."
+
+[params]
+disableHLJS = false       # don't use highlight.js
+github = 'realzhangm'     # github.com/YOUR_GITHUB_ID
+
+# needed to  render raw HTML (e.g. <sub>, <sup>, <kbd>, <mark>)
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+[menu]
+
+  [[menu.main]]
+    identifier = "about"
+    name = "About"
+    url = "/about/"
+    weight = 10
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+  series = "series"
