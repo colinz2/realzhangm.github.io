@@ -1,8 +1,11 @@
-theme = "paper"
 baseurl = 'https://realzhangm.github.io'
-languageCode = 'zh'
+languageCode = 'zh-cn'
+defaultContentLanguage = "zh"
+
+theme = "paper"
 title = 'zhangm blog'
 author = "zhangm"
+enableInlineShortcodes = true
 copyright = "Copyright © 2018–2022, zhangm; all rights reserved."
 
 [params]
