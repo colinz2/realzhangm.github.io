@@ -1,8 +1,7 @@
 ---
-layout: post
 title: "Tcpreplay使用Netmap发包"
 description: "Tcpreplay使用Netmap模式的步骤"
-date: 2018-01-14T09:28:42+08:00
+date: "2018-01-14T09:28:42+08:00"
 keywords: "发包, 报文回放"
 ---
 

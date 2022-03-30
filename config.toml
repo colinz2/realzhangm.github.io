@@ -1,5 +1,5 @@
 theme = "paper"
-baseURL = 'realzhangm.github.io'
+baseurl = 'https://realzhangm.github.io'
 languageCode = 'zh'
 title = 'zhangm blog'
 author = "zhangm"
