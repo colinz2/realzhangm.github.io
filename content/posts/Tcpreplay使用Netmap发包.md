@@ -1,8 +1,8 @@
 ---
-title: "Tcpreplay使用Netmap发包"
-description: "Tcpreplay使用Netmap模式的步骤"
-date: "2018-12-1"
-lastmod: 2018-12-1
+title: Tcpreplay使用Netmap发包
+description: Tcpreplay使用Netmap模式的步骤
+author: realzhangm
+date: 2018-11-01
 tags: ["报文回放"]
 ---
 

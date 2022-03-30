@@ -1,7 +1,8 @@
 ---
-title: "C/C++代码检查&运行时检查工具"
-description: "C/C++代码检查&运行时检查工具"
-date: "2018-01-14"
+title: C/C++代码检查&运行时检查工具
+description: C/C++代码检查&运行时检查工具
+author: realzhangm
+date: 2018-01-14
 lastmod: 2018-01-14
 tags: ["代码检查工具"]
 ---
