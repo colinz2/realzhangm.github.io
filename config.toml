@@ -2,11 +2,14 @@ baseurl = 'https://realzhangm.github.io'
 languageCode = 'zh-cn'
 defaultContentLanguage = "zh"
 
-theme = "paper"
 title = 'zhangm blog'
 author = "zhangm"
-enableInlineShortcodes = true
 copyright = "Copyright © 2018–2022, zhangm; all rights reserved."
+
+paginate = 5
+enableInlineShortcodes = true
+
+theme = "paper"
 
 [params]
 disableHLJS = false       # don't use highlight.js
