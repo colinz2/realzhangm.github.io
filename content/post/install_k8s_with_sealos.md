@@ -5,7 +5,7 @@ draft: false
 
 description: Tcpreplay使用Netmap模式的步骤
 author: realzhangm
-tags: ["记录", "k8s"]
+tags: ["记录", "k8s", "安装"]
 ---
 
 ## 说明
@@ -170,3 +170,107 @@ sealos init \
 kubectl get node -owide
 kubectl get pod --all-namespaces
 ```
+
+## 示例 1 (安装单机版本 redis)
+
+`redis-standalone.yml` 文件如下，使用是执行： `kubectl apply -f redis-standalone.yml`
+
+```yaml
+# 定义配置
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-standalone-conf
+data:
+  redis.conf: |
+        bind 0.0.0.0
+        port 6379
+        requirepass 111111
+        appendonly yes
+        cluster-config-file nodes-6379.conf
+        pidfile /redis/log/redis-6379.pid
+        cluster-config-file /redis/conf/redis.conf
+        dir /redis/data/
+        logfile /redis/log/redis-6379.log
+        cluster-node-timeout 5000
+        protected-mode no
+---
+# StatefulSet
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis-standalone
+spec:
+  replicas: 1
+  serviceName: redis-standalone
+  selector:
+    matchLabels:
+      name: redis-standalone
+  template:
+    metadata:
+      labels:
+        name: redis-standalone
+    spec:
+      initContainers:
+      - name: init-redis-standalone
+        image: busybox
+        command: ['sh', '-c', 'mkdir -p /redis/log/;mkdir -p /redis/conf/;mkdir -p /redis/data/']
+        volumeMounts:
+        - name: data
+          mountPath: /redis/
+      containers:
+      - name: redis-standalone
+        image: redis:5.0.6
+        imagePullPolicy: IfNotPresent
+        command:
+        - sh
+        - -c
+        - "exec redis-server /redis/conf/redis.conf"
+        ports:
+        - containerPort: 6379
+          name: redis
+          protocol: TCP
+        volumeMounts:
+        - name: redis-config
+          mountPath: /redis/conf/
+        - name: data
+          mountPath: /redis/
+      volumes:
+      - name: redis-config
+        configMap:
+          name: redis-standalone-conf
+      - name: data
+        hostPath:
+          path: /redis/
+---
+# NodePort 服务，可以通过集群的任何节点访问，包括主节点
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    name: redis-standalone
+  name: redis-standalone
+spec:
+  type: NodePort
+  ports:
+  - name: redis
+    port: 6379
+    targetPort: 6379
+    nodePort: 31379
+  selector:
+    name: redis-standalone
+```
+查看创建的资源
+```
+kubectl get statefulset
+kubectl get pod
+kubectl get svc
+```
+
+使用 redis 客户端测试：
+```shell
+redis-cli -h 192.168.33.10 -p 31379 -a 111111
+redis-cli -h 192.168.33.11 -p 31379 -a 111111
+redis-cli -h 192.168.33.12 -p 31379 -a 111111
+```
+---
